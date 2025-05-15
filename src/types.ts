@@ -11,4 +11,11 @@ export interface IImage extends Document {
     originalPath: string;
     processedPath?: string;
     status: "pending" | "processing" | "done" | "failed";
-  }
+}
+
+export interface ApiResponse extends Document {
+    success: boolean,
+    data: any,
+    message?: string,
+    error?: any,
+}
