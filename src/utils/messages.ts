@@ -8,4 +8,8 @@ export const Messages = {
   NOT_ACCEPTABLE: "Not Acceptable!",
   CONFLICT: "Conflict!",
   CREATED: "Created!",
+  ERROR_GENERATING_TOKEN: "Error generating token!",
+  TOKEN_GENERATION_FAILED: "Token generation failed!",
+  ERROR_LOGGING_IN: "Error logging in user",
+  INVALID_CREDENTIALS:"Invalid credentials",
 };
