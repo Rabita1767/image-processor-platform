@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import userRepository from "../repositories/userRepository";
 import { Messages } from "../utils/messages";
 import { generateToken } from "../utils/common";
+import AppError from "../utils/AppError";
 
 class UserService {
   public async signup(userData: IUser): Promise<IUser> {
@@ -30,12 +31,12 @@ class UserService {
       if (!findUser) {
         throw new Error(Messages.NOT_FOUND);
       }
-      const isPasswordMatched = bcrypt.compare(
+      const isPasswordMatched =await bcrypt.compare(
         findUser.password,
         payload.password
       );
       if (!isPasswordMatched) {
-        throw new Error(Messages.INVALID_CREDENTIALS);
+        throw new AppError(Messages.INVALID_CREDENTIALS,401);
       }
       const { refreshToken, accessToken } = await generateToken(findUser);
       return {
