@@ -1,4 +1,5 @@
-import { Document, Types } from "mongoose";
+import { Document, ObjectId, Types } from "mongoose";
+import { Request } from "express";
 export interface IUser extends Document {
   userName: string;
   email: string;
@@ -39,4 +40,8 @@ export interface ILoginResponse {
   accessToken: string;
   refreshToken: string;
   user: IUser;
+}
+
+export interface CustomRequest extends Request {
+  userId?: string;
 }
