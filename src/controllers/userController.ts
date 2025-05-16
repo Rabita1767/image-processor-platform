@@ -3,6 +3,7 @@ import { sendResponse } from "../utils/common";
 import HTTP_STATUS from "../constants/statusCode";
 import { Messages } from "../utils/messages";
 import userService from "../services/userService";
+import AppError from "../utils/AppError";
 
 class UserController {
   public async signup(req: Request, res: Response): Promise<void> {
@@ -32,6 +33,7 @@ class UserController {
         Messages.INTERNAL_SERVER_ERROR,
         error
       );
+      
     }
   }
 }

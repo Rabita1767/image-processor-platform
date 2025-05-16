@@ -2,7 +2,7 @@ import { Response } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import TokenModel from "../models/tokenModel";
-import { ApiResponse, IToken, ITokenPayload, IUser } from "../types";
+import { ApiResponse, IToken, IUser } from "../types";
 import { Messages } from "./messages";
 dotenv.config();
 
@@ -36,7 +36,7 @@ export const sendResponse = (
 
 export const generateToken = async (tokenData: IUser): Promise<IToken> => {
   try {
-    const accessToken = await jwt.sign(
+    const accessToken =  jwt.sign(
       {
         id: tokenData._id,
         name: tokenData.userName,
@@ -45,7 +45,7 @@ export const generateToken = async (tokenData: IUser): Promise<IToken> => {
       process.env.JWT_ACCESS_SECRET as string,
       { expiresIn: "1h" }
     );
-    const refreshToken = await jwt.sign(
+    const refreshToken =  jwt.sign(
       {
         id: tokenData._id,
         name: tokenData.userName,
