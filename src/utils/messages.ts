@@ -12,4 +12,8 @@ export const Messages = {
   TOKEN_GENERATION_FAILED: "Token generation failed!",
   ERROR_LOGGING_IN: "Error logging in user",
   INVALID_CREDENTIALS:"Invalid credentials",
+  FILE_NOT_FOUND:"File not found",
+  FILE_UPLOAD_SUCCESS:"File uploaded successfully",
+  IMAGE_NOT_UPLOADED:"Image not uploaded",
+  ERROR_UPLOADING_IMAGE:"Error uploading image",
 };

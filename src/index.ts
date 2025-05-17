@@ -3,13 +3,15 @@ import cors from "cors";
 import dotenv from "dotenv";
 import databaseConnection from "./config/database";
 import userRoute from "./routes/userRoute";
+import imageRoute from "./routes/imageRoute";
 dotenv.config();
 export const startServer=()=>{
     const app=express();
-    app.use(cors({ origin: "*" })); // Allow all origins (for testing purposes)
+    app.use(cors({ origin: "*" })); // Allow all origins
     app.use(express.json());
     app.use(express.urlencoded({extended:true})); 
     app.use("/api/v1/user",userRoute);
+    app.use("/api/v1/image",imageRoute);
 
     const PORT=process.env.PORT ?? 8000;
     databaseConnection(()=>{

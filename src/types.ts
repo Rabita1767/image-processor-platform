@@ -1,4 +1,4 @@
-import { Document, ObjectId, Types } from "mongoose";
+import { Document, Types } from "mongoose";
 import { Request } from "express";
 export interface IUser extends Document {
   userName: string;
@@ -44,4 +44,17 @@ export interface ILoginResponse {
 
 export interface CustomRequest extends Request {
   userId?: string;
+}
+export interface IFile {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  size: number;
+  destination: string;
+  filename: string;
+  path: string;
+}
+export interface IImagePayload{
+  file: IFile;
 }
