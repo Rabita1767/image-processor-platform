@@ -35,7 +35,8 @@ class AuthMiddleware {
           Messages.UNAUTHORIZED
         );
       }
-      req.userId = decodedToken.userId;
+      req.userId = decodedToken.id;
+      console.log("hereee", req.userId);
       next();
     } catch (error) {
       console.log(error);

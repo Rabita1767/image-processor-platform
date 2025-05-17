@@ -27,7 +27,7 @@ export interface IToken {
 }
 
 export interface ITokenPayload {
-  userId: string;
+  id: string;
   userName: string;
   email: string;
 }

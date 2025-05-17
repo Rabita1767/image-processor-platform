@@ -9,6 +9,7 @@ class ImageController{
     public async uploadImage(req:CustomRequest,res:Response):Promise<void>
     {
         try {
+            console.log("userId",req);
             const uploadImage=await imageService.uploadImage(req.userId,req.file);
             return sendResponse(res,HTTP_STATUS.CREATED,Messages.CREATED,uploadImage);
         } catch (error) {

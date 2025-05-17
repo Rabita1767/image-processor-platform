@@ -32,11 +32,11 @@ class UserService {
         throw new Error(Messages.NOT_FOUND);
       }
       const isPasswordMatched =await bcrypt.compare(
-        findUser.password,
-        payload.password
+        payload.password,
+        findUser.password
       );
       if (!isPasswordMatched) {
-        throw new AppError(Messages.INVALID_CREDENTIALS,401);
+        throw new Error(Messages.INVALID_CREDENTIALS);
       }
       const { refreshToken, accessToken } = await generateToken(findUser);
       return {
