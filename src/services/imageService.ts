@@ -1,3 +1,4 @@
+import { getRabbitChannel } from "../config/rabbitMq";
 import imageRepository from "../repositories/imageRepository";
 import {  IImage, IFile} from "../types";
 import { Messages } from "../utils/messages";
@@ -19,6 +20,30 @@ import { Messages } from "../utils/messages";
         } catch (error) {
             console.log(error);
             throw new Error(Messages.ERROR_UPLOADING_IMAGE);
+        }
+    }
+
+    public async compressImage(params: { id: string }): Promise<IImage | null> {
+        try {
+            const { id } = params;
+            if(!id)
+            {
+                throw new Error(Messages.INVALID_PARAMETERS);
+            }
+            const findImageById = await imageRepository.findImageById(id);
+            if (!findImageById) {
+                throw new Error(Messages.IMAGE_NOT_FOUND);
+            }
+            const channel = await getRabbitChannel();
+            channel.sendToQueue("compress", Buffer.from(JSON.stringify({
+                imgId: id,
+                path: findImageById.originalPath,
+            })));
+            return findImageById;
+
+        } catch (error) {
+            console.log(error);
+            throw new Error(Messages.ERROR_COMPRESSING_IMAGE);
         }
     }
 

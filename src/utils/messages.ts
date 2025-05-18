@@ -16,4 +16,8 @@ export const Messages = {
   FILE_UPLOAD_SUCCESS:"File uploaded successfully",
   IMAGE_NOT_UPLOADED:"Image not uploaded",
   ERROR_UPLOADING_IMAGE:"Error uploading image",
+  ERROR_COMPRESSING_IMAGE:"Error compressing image",
+  IMAGE_COMPRESS_SUCCESS:"Image compressed successfully",
+  IMAGE_NOT_FOUND:"Image not found",
+  INVALID_PARAMETERS:"Invalid parameters",
 };

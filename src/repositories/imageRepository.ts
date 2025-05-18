@@ -9,5 +9,9 @@ class ImageRepository {
         })
     }
 
+    public async findImageById(id:string):Promise<IImage | null>{
+        return await ImageModel.findById({_id:id});
+    }
+
 }
 export default new ImageRepository;
