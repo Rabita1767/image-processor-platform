@@ -23,7 +23,7 @@ import { Messages } from "../utils/messages";
         }
     }
 
-    public async compressImage(params: { id: string }): Promise<IImage | null> {
+    public async compressImage(params: { id: string }): Promise<string | null> {
         try {
             const { id } = params;
             if(!id)
@@ -39,7 +39,8 @@ import { Messages } from "../utils/messages";
                 imgId: id,
                 path: findImageById.originalPath,
             })));
-            return findImageById;
+            console.log("Message sent to queue");
+            return id;
 
         } catch (error) {
             console.log(error);

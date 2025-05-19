@@ -13,9 +13,7 @@ class AuthMiddleware {
   auth = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
       let accessToken = req.headers.authorization;
-      console.log("accessToken", accessToken);
       let token = accessToken?.split(" ")[1];
-      console.log("token", token);
       if (!token) {
         return sendResponse(
           res,
@@ -36,7 +34,6 @@ class AuthMiddleware {
         );
       }
       req.userId = decodedToken.id;
-      console.log("hereee", req.userId);
       next();
     } catch (error) {
       console.log(error);

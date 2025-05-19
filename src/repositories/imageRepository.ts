@@ -13,5 +13,12 @@ class ImageRepository {
         return await ImageModel.findById({_id:id});
     }
 
+    public async findByIdAndUpdate(imgId:string,outputPath:string):Promise<IImage | null>{
+        return await ImageModel.findByIdAndUpdate(imgId,{
+            processedPath:outputPath,
+            status:"done"
+        },{new:true})
+    }
+
 }
 export default new ImageRepository;
