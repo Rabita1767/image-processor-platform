@@ -9,7 +9,6 @@ class ImageController{
     public async uploadImage(req:CustomRequest,res:Response):Promise<void>
     {
         try {
-            console.log("userId",req);
             const uploadImage=await imageService.uploadImage(req.userId,req.file);
             return sendResponse(res,HTTP_STATUS.CREATED,Messages.CREATED,uploadImage);
         } catch (error) {
@@ -24,6 +23,26 @@ class ImageController{
             return sendResponse(res,HTTP_STATUS.CREATED,Messages.CREATED,compressImage);      
         } catch (error) {
             console.log(error);
+            return sendResponse(res,HTTP_STATUS.INTERNAL_SERVER_ERROR,Messages.INTERNAL_SERVER_ERROR,error);
+        }
+    }
+
+    public async downloadProcessedImage(req:Request,res:Response):Promise<void>{
+        try {
+            const downloadProcessedImagePath=await imageService.downloadProcessedImage(req.params as {id:string});
+            return res.download(downloadProcessedImagePath);  
+        } catch (error) {
+            console.log(error);
+            return sendResponse(res,HTTP_STATUS.INTERNAL_SERVER_ERROR,Messages.INTERNAL_SERVER_ERROR,error);  
+        }
+    }
+
+    public async getImageById(req:Request,res:Response):Promise<void>{
+        try {
+            const getImageById=await imageService.getImageById(req.params as {id:string});
+            return sendResponse(res,HTTP_STATUS.OK,Messages.IMAGE_STATUS_FETCHED_SUCCESSFULLY,getImageById);
+        } catch (error) {
+            console.log(error)
             return sendResponse(res,HTTP_STATUS.INTERNAL_SERVER_ERROR,Messages.INTERNAL_SERVER_ERROR,error);
         }
     }

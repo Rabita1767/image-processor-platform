@@ -36,128 +36,93 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var rabbitMq_1 = require("../config/rabbitMq");
-var imageRepository_1 = require("../repositories/imageRepository");
+var common_1 = require("../utils/common");
+var statusCode_1 = require("../constants/statusCode");
 var messages_1 = require("../utils/messages");
-var ImageService = /** @class */ (function () {
-    function ImageService() {
+var imageService_1 = require("../services/imageService");
+var ImageController = /** @class */ (function () {
+    function ImageController() {
     }
-    ImageService.prototype.uploadImage = function (userId, payload) {
+    ImageController.prototype.uploadImage = function (req, res) {
         return __awaiter(this, void 0, Promise, function () {
-            var uploadedImage, error_1;
+            var uploadImage, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        if (!payload) {
-                            throw new Error(messages_1.Messages.FILE_NOT_FOUND);
-                        }
-                        return [4 /*yield*/, imageRepository_1["default"].uploadImage(userId, payload)];
+                        return [4 /*yield*/, imageService_1["default"].uploadImage(req.userId, req.file)];
                     case 1:
-                        uploadedImage = _a.sent();
-                        if (!uploadedImage) {
-                            throw new Error(messages_1.Messages.IMAGE_NOT_UPLOADED);
-                        }
-                        return [2 /*return*/, uploadedImage];
+                        uploadImage = _a.sent();
+                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].CREATED, messages_1.Messages.CREATED, uploadImage)];
                     case 2:
                         error_1 = _a.sent();
                         console.log(error_1);
-                        throw new Error(messages_1.Messages.ERROR_UPLOADING_IMAGE);
+                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].INTERNAL_SERVER_ERROR, messages_1.Messages.INTERNAL_SERVER_ERROR, error_1)];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    ImageService.prototype.compressImage = function (params) {
+    ImageController.prototype.compressImage = function (req, res) {
         return __awaiter(this, void 0, Promise, function () {
-            var id, findImageById, channel, error_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 3, , 4]);
-                        id = params.id;
-                        if (!id) {
-                            throw new Error(messages_1.Messages.INVALID_PARAMETERS);
-                        }
-                        return [4 /*yield*/, imageRepository_1["default"].findImageById(id)];
-                    case 1:
-                        findImageById = _a.sent();
-                        if (!findImageById) {
-                            throw new Error(messages_1.Messages.IMAGE_NOT_FOUND);
-                        }
-                        return [4 /*yield*/, rabbitMq_1.getRabbitChannel()];
-                    case 2:
-                        channel = _a.sent();
-                        channel.sendToQueue("compress", Buffer.from(JSON.stringify({
-                            imgId: id,
-                            path: findImageById.originalPath
-                        })));
-                        console.log("Message sent to queue");
-                        return [2 /*return*/, id];
-                    case 3:
-                        error_2 = _a.sent();
-                        console.log(error_2);
-                        throw new Error(messages_1.Messages.ERROR_COMPRESSING_IMAGE);
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    ImageService.prototype.downloadProcessedImage = function (params) {
-        return __awaiter(this, void 0, Promise, function () {
-            var id, findImageById, filePath, error_3;
+            var compressImage, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        id = params.id;
-                        return [4 /*yield*/, imageRepository_1["default"].findImageById(id)];
+                        return [4 /*yield*/, imageService_1["default"].compressImage(req.params)];
                     case 1:
-                        findImageById = _a.sent();
-                        if (!findImageById) {
-                            throw new Error(messages_1.Messages.IMAGE_NOT_FOUND);
-                        }
-                        filePath = findImageById.processedPath;
-                        if (!filePath || findImageById.status !== "done") {
-                            throw new Error(messages_1.Messages.IMAGE_NOT_COMPRESSED);
-                        }
-                        return [2 /*return*/, filePath];
+                        compressImage = _a.sent();
+                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].CREATED, messages_1.Messages.CREATED, compressImage)];
+                    case 2:
+                        error_2 = _a.sent();
+                        console.log(error_2);
+                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].INTERNAL_SERVER_ERROR, messages_1.Messages.INTERNAL_SERVER_ERROR, error_2)];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ImageController.prototype.downloadProcessedImage = function (req, res) {
+        return __awaiter(this, void 0, Promise, function () {
+            var downloadProcessedImagePath, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, imageService_1["default"].downloadProcessedImage(req.params)];
+                    case 1:
+                        downloadProcessedImagePath = _a.sent();
+                        return [2 /*return*/, res.download(downloadProcessedImagePath)];
                     case 2:
                         error_3 = _a.sent();
                         console.log(error_3);
-                        throw new Error(messages_1.Messages.ERROR_DOWNLOADING_IMAGE);
+                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].INTERNAL_SERVER_ERROR, messages_1.Messages.INTERNAL_SERVER_ERROR, error_3)];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    ImageService.prototype.getImageById = function (params) {
+    ImageController.prototype.getImageById = function (req, res) {
         return __awaiter(this, void 0, Promise, function () {
-            var id, findImageById, error_4;
+            var getImageById, error_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        id = params.id;
-                        if (!id) {
-                            throw new Error(messages_1.Messages.INVALID_PARAMETERS);
-                        }
-                        return [4 /*yield*/, imageRepository_1["default"].findImageById(id)];
+                        return [4 /*yield*/, imageService_1["default"].getImageById(req.params)];
                     case 1:
-                        findImageById = _a.sent();
-                        if (!findImageById) {
-                            throw new Error(messages_1.Messages.IMAGE_NOT_FOUND);
-                        }
-                        return [2 /*return*/, findImageById];
+                        getImageById = _a.sent();
+                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].OK, messages_1.Messages.IMAGE_STATUS_FETCHED_SUCCESSFULLY, getImageById)];
                     case 2:
                         error_4 = _a.sent();
                         console.log(error_4);
-                        throw new Error(messages_1.Messages.IMAGE_NOT_FOUND);
+                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].INTERNAL_SERVER_ERROR, messages_1.Messages.INTERNAL_SERVER_ERROR, error_4)];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    return ImageService;
+    return ImageController;
 }());
-exports["default"] = new ImageService;
+exports["default"] = new ImageController;

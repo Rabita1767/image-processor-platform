@@ -48,5 +48,46 @@ import { Messages } from "../utils/messages";
         }
     }
 
+    public async downloadProcessedImage(params:{id:string}):Promise<string>{
+        try {
+            const {id}=params;
+            const findImageById=await imageRepository.findImageById(id);
+            if(!findImageById)
+            {
+                throw new Error(Messages.IMAGE_NOT_FOUND);
+            }
+            const filePath=findImageById.processedPath;
+            if(!filePath || findImageById.status!=="done")
+            {
+                throw new Error(Messages.IMAGE_NOT_COMPRESSED);
+            }
+            return filePath;     
+        } catch (error) {
+            console.log(error);
+            throw new Error(Messages.ERROR_DOWNLOADING_IMAGE);
+            
+        }
+    }
+
+    public async getImageById(params:{id:string}):Promise<IImage | null>{
+        try {
+            const {id}=params;
+            if(!id)
+            {
+                throw new Error(Messages.INVALID_PARAMETERS);
+            }
+            const findImageById=await imageRepository.findImageById(id);
+            if(!findImageById)
+            {
+                throw new Error(Messages.IMAGE_NOT_FOUND);
+            }
+            return findImageById;      
+        } catch (error) {
+            console.log(error);
+            throw new Error(Messages.IMAGE_NOT_FOUND);
+            
+        }
+    }
+
 }
 export default new ImageService;

@@ -20,4 +20,7 @@ export const Messages = {
   IMAGE_COMPRESS_SUCCESS:"Image compressed successfully",
   IMAGE_NOT_FOUND:"Image not found",
   INVALID_PARAMETERS:"Invalid parameters",
+  IMAGE_NOT_COMPRESSED:"Image not compressed",
+  ERROR_DOWNLOADING_IMAGE:"Error downloading image",
+  IMAGE_STATUS_FETCHED_SUCCESSFULLY:"Image status fetched successfully",
 };
