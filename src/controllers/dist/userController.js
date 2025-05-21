@@ -39,21 +39,21 @@ exports.__esModule = true;
 var common_1 = require("../utils/common");
 var statusCode_1 = require("../constants/statusCode");
 var messages_1 = require("../utils/messages");
-var imageService_1 = require("../services/imageService");
-var ImageController = /** @class */ (function () {
-    function ImageController() {
+var userService_1 = require("../services/userService");
+var UserController = /** @class */ (function () {
+    function UserController() {
     }
-    ImageController.prototype.uploadImage = function (req, res, next) {
+    UserController.prototype.signup = function (req, res, next) {
         return __awaiter(this, void 0, Promise, function () {
-            var uploadImage, error_1;
+            var signup, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, imageService_1["default"].uploadImage(req.userId, req.file)];
+                        return [4 /*yield*/, userService_1["default"].signup(req.body)];
                     case 1:
-                        uploadImage = _a.sent();
-                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].CREATED, messages_1.Messages.CREATED, uploadImage)];
+                        signup = _a.sent();
+                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].CREATED, messages_1.Messages.CREATED, signup)];
                     case 2:
                         error_1 = _a.sent();
                         console.log(error_1);
@@ -64,66 +64,26 @@ var ImageController = /** @class */ (function () {
             });
         });
     };
-    ImageController.prototype.compressImage = function (req, res) {
+    UserController.prototype.login = function (req, res, next) {
         return __awaiter(this, void 0, Promise, function () {
-            var compressImage, error_2;
+            var login, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, imageService_1["default"].compressImage(req.params)];
+                        return [4 /*yield*/, userService_1["default"].login(req.body)];
                     case 1:
-                        compressImage = _a.sent();
-                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].CREATED, messages_1.Messages.CREATED, compressImage)];
+                        login = _a.sent();
+                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].OK, messages_1.Messages.CREATED, login)];
                     case 2:
                         error_2 = _a.sent();
-                        console.log(error_2);
-                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].INTERNAL_SERVER_ERROR, messages_1.Messages.INTERNAL_SERVER_ERROR, error_2)];
+                        next(error_2);
+                        return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    ImageController.prototype.downloadProcessedImage = function (req, res) {
-        return __awaiter(this, void 0, Promise, function () {
-            var downloadProcessedImagePath, error_3;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, imageService_1["default"].downloadProcessedImage(req.params)];
-                    case 1:
-                        downloadProcessedImagePath = _a.sent();
-                        return [2 /*return*/, res.download(downloadProcessedImagePath)];
-                    case 2:
-                        error_3 = _a.sent();
-                        console.log(error_3);
-                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].INTERNAL_SERVER_ERROR, messages_1.Messages.INTERNAL_SERVER_ERROR, error_3)];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    ImageController.prototype.getImageById = function (req, res) {
-        return __awaiter(this, void 0, Promise, function () {
-            var getImageById, error_4;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, imageService_1["default"].getImageById(req.params)];
-                    case 1:
-                        getImageById = _a.sent();
-                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].OK, messages_1.Messages.IMAGE_STATUS_FETCHED_SUCCESSFULLY, getImageById)];
-                    case 2:
-                        error_4 = _a.sent();
-                        console.log(error_4);
-                        return [2 /*return*/, common_1.sendResponse(res, statusCode_1["default"].INTERNAL_SERVER_ERROR, messages_1.Messages.INTERNAL_SERVER_ERROR, error_4)];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return ImageController;
+    return UserController;
 }());
-exports["default"] = new ImageController;
+exports["default"] = new UserController();

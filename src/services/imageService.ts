@@ -1,26 +1,22 @@
 import { getRabbitChannel } from "../config/rabbitMq";
+import HTTP_STATUS from "../constants/statusCode";
 import imageRepository from "../repositories/imageRepository";
 import {  IImage, IFile} from "../types";
+import AppError from "../utils/AppError";
 import { Messages } from "../utils/messages";
 
  class ImageService {
     public async uploadImage(userId:string | undefined,payload:IFile | undefined):Promise<IImage>{
-        try {
-
             if(!payload)
             {
-                throw new Error(Messages.FILE_NOT_FOUND);
+                throw new AppError(Messages.FILE_NOT_FOUND,HTTP_STATUS.BAD_REQUEST);
             }
             const uploadedImage=await imageRepository.uploadImage(userId,payload);
             if(!uploadedImage)
             {
-                throw new Error(Messages.IMAGE_NOT_UPLOADED);
+                throw new AppError(Messages.IMAGE_NOT_UPLOADED,HTTP_STATUS.BAD_REQUEST);
             }
             return uploadedImage;
-        } catch (error) {
-            console.log(error);
-            throw new Error(Messages.ERROR_UPLOADING_IMAGE);
-        }
     }
 
     public async compressImage(params: { id: string }): Promise<string | null> {

@@ -58,3 +58,7 @@ export interface IFile {
 export interface IImagePayload{
   file: IFile;
 }
+
+interface ErrorWithStatus extends Error {
+  status?: number;
+}

@@ -5,6 +5,9 @@ import databaseConnection from "./config/database";
 import userRoute from "./routes/userRoute";
 import imageRoute from "./routes/imageRoute";
 import { rabbitMqConnection } from "./config/rabbitMq";
+import HTTP_STATUS from "./constants/statusCode";
+import {errorHandler} from "./middlewares/errorMiddleware";
+
 dotenv.config();
 export const startServer=async ()=>{
     const app=express();
@@ -13,6 +16,9 @@ export const startServer=async ()=>{
     app.use(express.urlencoded({extended:true})); 
     app.use("/api/v1/user",userRoute);
     app.use("/api/v1/image",imageRoute);
+
+    //Error Hnadling Middleware
+    app.use(errorHandler);
 
     const PORT=process.env.PORT ?? 8000;
     try {

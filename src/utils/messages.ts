@@ -23,4 +23,5 @@ export const Messages = {
   IMAGE_NOT_COMPRESSED:"Image not compressed",
   ERROR_DOWNLOADING_IMAGE:"Error downloading image",
   IMAGE_STATUS_FETCHED_SUCCESSFULLY:"Image status fetched successfully",
+  USER_NOT_CREATED:"User not created",
 };
